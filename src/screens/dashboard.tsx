@@ -1,33 +1,75 @@
-import { Box, Typography, Switch } from "@mui/material";
-// import HomeIcon from "@mui/icons-material/Home";
-// import ReceiptIcon from "@mui/icons-material/Receipt";
-// import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-// import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import {
+  Box,
+  Typography,
+  Switch,
+  AppBar,
+  Toolbar,
+  Card,
+  CardContent,
+} from "@mui/material";
 import { useState } from "react";
-
-export default function Dashboard() {
+import user_with_cartoon from "../assets/user_with_cartoon.png";
+import carton from "../assets/carton.png";
+import list from "../assets/list.png";
+export default function () {
   const [isOnline, setIsOnline] = useState(true);
-
   return (
-    <Box className="flex flex-col h-screen w-full bg-gray-100">
+    <>
       {/* Header Section */}
-      <Box className="bg-orange-500 p-5 text-white rounded-b-3xl">
-        <Typography variant="h6" className="font-semibold">
-          Welcome <span className="font-bold">Koby</span>
-        </Typography>
-        <Typography variant="h6" className="mt-2">
-          Your earning for today
-        </Typography>
-        <Typography variant="h4" className="font-bold">
-          GHS 0.00
-        </Typography>
-      </Box>
+      <AppBar
+        position="static"
+        sx={{
+          bgcolor: "#FF7300",
+          paddingLeft: 2,
+          paddingRight: 2,
+          paddingTop: 2,
+        }}
+      >
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: 4,
+          }}
+        >
+          <Typography sx={{ textAlign: "center" }}>
+            Welcome <br /> <span style={{ fontWeight: "bold" }}>Koby</span>
+          </Typography>
+          <Box>
+            <Typography variant="subtitle1" sx={{ fontSize: "12px" }}>
+              Your earning for today
+            </Typography>
+            <Typography
+              variant="h4"
+              sx={{ fontWeight: "bold", fontSize: "32px" }}
+            >
+              GHS 0.00
+            </Typography>
+          </Box>
+        </Toolbar>
+        <Box>
+          <img src={user_with_cartoon} alt="all" />
+        </Box>
+      </AppBar>
 
       {/* Online Toggle */}
-      <Box className="bg-white p-4 mt-3 rounded-xl shadow-md flex items-center justify-between">
-        <Typography variant="h6" className="font-semibold text-orange-500">
-          Online
-        </Typography>
+      <Box
+        sx={{
+          mx: 2,
+          my: 2,
+          p: 2,
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <Box>
+          <Typography variant="h6" color="orange">
+            Online
+          </Typography>{" "}
+          <Typography variant="subtitle1" color="#868686" fontSize={12}>
+            Open To any Delivery
+          </Typography>
+        </Box>
         <Switch
           checked={isOnline}
           onChange={() => setIsOnline(!isOnline)}
@@ -35,62 +77,59 @@ export default function Dashboard() {
         />
       </Box>
 
-      {/* Orders Status Section */}
-      <Box className="p-4 space-y-3">
-        {/* No Orders Yet Card */}
-        <Box className="bg-orange-100 p-4 rounded-lg flex">
-          <img
-            src="/icons/box.png" // Replace with actual image
-            alt="box"
-            className="w-12 h-12"
-          />
-          <Box className="ml-3">
-            <Typography className="font-bold">There no orders yet</Typography>
-            <Typography variant="body2" className="text-gray-600">
+      {/* Order Status Cards */}
+      <Box sx={{ px: 2, mb: 4 }}>
+        <Card
+          sx={{
+            bgcolor: "#fb6b044c",
+            mb: 2,
+            display: "flex",
+            borderRadius: 6,
+            padding: 2,
+          }}
+        >
+          <img src={carton} alt="Delivery Illustration" />
+          <CardContent>
+            <Typography
+              variant="h6"
+              sx={{ fontWeight: "bold", fontSize: "14px" }}
+            >
+              There no orders yet
+            </Typography>
+            <Typography variant="body2" color="#868686" fontSize={10}>
               Hang tight—stay online in busy areas and during peak times to
               boost your chances of getting orders soon!
             </Typography>
-          </Box>
-        </Box>
+          </CardContent>
+        </Card>
 
-        {/* Yet to Complete Order Card */}
-        <Box className="bg-green-100 p-4 rounded-lg flex">
+        <Card
+          sx={{
+            bgcolor: "#0fb28137",
+            display: "flex",
+            borderRadius: 6,
+            padding: 2,
+          }}
+        >
           <img
-            src="/icons/checklist.png" // Replace with actual image
-            alt="checklist"
-            className="w-12 h-12"
+            src={list}
+            alt="Delivery Illustration"
+            // style={{ width: "60%", marginBottom: "20px" }}
           />
-          <Box className="ml-3">
-            <Typography className="font-bold">
+          <CardContent>
+            <Typography
+              variant="h6"
+              sx={{ fontWeight: "bold", fontSize: "14px" }}
+            >
               You are yet to complete an order
             </Typography>
-            <Typography variant="body2" className="text-gray-600">
+            <Typography variant="body2" color="#868686" fontSize={10}>
               "Keep accepting orders and stay focused to quickly complete your
               first delivery!"
             </Typography>
-          </Box>
-        </Box>
+          </CardContent>
+        </Card>
       </Box>
-
-      {/* Bottom Navigation */}
-      <Box className="fixed bottom-0 left-0 w-full bg-white p-3 shadow-md flex justify-between">
-        <Box className="flex flex-col items-center text-orange-500">
-          {/* <HomeIcon fontSize="large" /> */}
-          <Typography className="text-xs">Home</Typography>
-        </Box>
-        <Box className="flex flex-col items-center text-gray-400">
-          {/* <ReceiptIcon fontSize="large" /> */}
-          <Typography className="text-xs">Activity</Typography>
-        </Box>
-        <Box className="flex flex-col items-center text-gray-400">
-          {/* <MonetizationOnIcon fontSize="large" /> */}
-          <Typography className="text-xs">Earnings</Typography>
-        </Box>
-        <Box className="flex flex-col items-center text-gray-400">
-          {/* <AccountCircleIcon fontSize="large" /> */}
-          <Typography className="text-xs">Account</Typography>
-        </Box>
-      </Box>
-    </Box>
+    </>
   );
 }

@@ -6,7 +6,7 @@ import GetStartedScreen from "./screens/getStarted";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginScreen from "./screens/login";
 import VerifyScreen from "./screens/verifyOtp";
-import Dashboard from "./screens/dashboard";
+import Dashboard from "./screens/homepage";
 
 function App() {
   const [splashScreen, setSplashScreen] = useState(true);
