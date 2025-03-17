@@ -12,7 +12,8 @@ export default function BottomNavigation(props: any) {
   return (
     <Container
       sx={{
-        padding: 2,
+        paddingX: 4,
+        paddingY: 2,
         display: "flex",
         width: "100%",
         justifyContent: "space-between",
@@ -31,6 +32,7 @@ export default function BottomNavigation(props: any) {
           ...(props.activeTab === "Home"
             ? { color: "#FF7300" }
             : { color: "#868686" }),
+          fontSize: "10px",
         }}
         onClick={() => props.setActiveTab("Home")}
       >
@@ -51,6 +53,7 @@ export default function BottomNavigation(props: any) {
           ...(props.activeTab === "Activity"
             ? { color: "#FF7300" }
             : { color: "#868686" }),
+          fontSize: "10px",
         }}
         onClick={() => props.setActiveTab("Activity")}
       >
@@ -71,6 +74,7 @@ export default function BottomNavigation(props: any) {
           ...(props.activeTab === "Earnings"
             ? { color: "#FF7300" }
             : { color: "#868686" }),
+          fontSize: "10px",
         }}
         onClick={() => props.setActiveTab("Earnings")}
       >
@@ -91,6 +95,7 @@ export default function BottomNavigation(props: any) {
           ...(props.activeTab === "Account"
             ? { color: "#FF7300" }
             : { color: "#868686" }),
+          fontSize: "10px",
         }}
         onClick={() => props.setActiveTab("Account")}
       >

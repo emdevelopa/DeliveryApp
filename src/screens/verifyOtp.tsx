@@ -111,7 +111,7 @@ function VerifyScreen() {
           Verify
         </Button>
       </Box>
-      {loader ? <Loader /> : null}
+      {loader ? <Loader text="Please wait, Logging in." /> : null}
     </Box>
   );
 }

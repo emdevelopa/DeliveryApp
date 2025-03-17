@@ -6,6 +6,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginScreen from "./screens/login";
 import VerifyScreen from "./screens/verifyOtp";
 import Dashboard from "./screens/homepage";
+import OrderScreen from "./screens/order/order";
+import OrderDetails from "./screens/order/orderDetails";
 
 function App() {
   const [splashScreen, setSplashScreen] = useState(true);
@@ -25,7 +27,7 @@ function App() {
         height: "100vh",
         display: "flex",
         // justifyContent: "center",
-        alignItems: "center",
+        // alignItems: "center",
         backgroundColor: "#fff",
       }}
     >
@@ -38,6 +40,8 @@ function App() {
             <Route path="/login" element={<LoginScreen />} />
             <Route path="/verify" element={<VerifyScreen />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/order" element={<OrderScreen />} />
+            <Route path="/order-details/:orderId" element={<OrderDetails />} />
           </Routes>
         </Router>
       )}

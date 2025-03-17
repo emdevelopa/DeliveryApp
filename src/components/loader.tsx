@@ -1,6 +1,6 @@
 import { Box, CircularProgress, Container, Typography } from "@mui/material";
 
-export default function Loader() {
+export default function Loader(props:any) {
   return (
     <Container
       sx={{
@@ -27,6 +27,7 @@ export default function Loader() {
           flexDirection: "column",
           padding: 4,
           gap: 2,
+          width: "70%",
         }}
       >
         <CircularProgress
@@ -37,7 +38,7 @@ export default function Loader() {
             color: "#FF7300",
           }}
         />
-        <Typography>Please wait, Logging in.</Typography>
+        <Typography>{props.text}</Typography>
       </Box>
     </Container>
   );

@@ -7,6 +7,7 @@ import BottomNavigation from "../components/bottomNavigation";
 import Dashboard from "./dashboard";
 import Activity from "./activity";
 import Earnings from "./earnings";
+import Account from "./account";
 
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState("Home");
@@ -20,7 +21,7 @@ export default function HomePage() {
       case "Earnings":
         return <Earnings/>;
       case "Account":
-        return <p>Account</p>;
+        return <Account/>;
     }
   };
 

@@ -1,17 +1,40 @@
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
-import noEarnings from "../assets/no-earnings.png";
-import DateFilter from "../components/dateFilter";
-import { InfoRounded, QuestionMarkRounded } from "@mui/icons-material";
+
+import { HelpOutline, InfoOutlined } from "@mui/icons-material";
+import logout from "../assets/log_out.png";
+import profile_image from "../assets/profile_image.png";
+import { useState } from "react";
+import LogoutDialog from "../components/confirmDialog";
+import Loader from "../components/loader";
 
 export default function Account() {
+  const [logginOut, setLogginOut] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleLogout = () => {
+    setLogginOut(true);
+  };
+
+  const handleClose = () => {
+    setLogginOut(false);
+  };
+
+  const handleConfirm = () => {
+    handleClose();
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  };
   return (
-    <>
+    <Box position="relative">
       <AppBar
         position="static"
         sx={{
           bgcolor: "#FF7300",
-          paddingLeft: 2,
-          paddingRight: 2,
+          paddingLeft: 1,
+          paddingRight: 1,
           paddingTop: 2,
         }}
       >
@@ -23,19 +46,15 @@ export default function Account() {
             marginBottom: 4,
           }}
         >
-          <img
-            src="https://source.unsplash.com/random/800x600"
-            alt="user"
-            loading="lazy"
-          />
+          <img src={profile_image} alt="user" loading="lazy" />
           <Box>
-            <Typography variant="subtitle1" sx={{ fontSize: "12px" }}>
+            <Typography
+              variant="subtitle1"
+              sx={{ fontSize: "18px", fontWeight: "bold" }}
+            >
               Gideon Essuman
             </Typography>
-            <Typography
-              variant="h4"
-              sx={{ fontWeight: "bold", fontSize: "32px" }}
-            >
+            <Typography variant="h4" sx={{ fontSize: "12px" }}>
               059 467 9885
             </Typography>
           </Box>
@@ -50,40 +69,69 @@ export default function Account() {
         sx={{
           width: "100%",
           display: "flex",
-          //   justifyContent: "center",
-          //   alignItems: "center",
+          justifyContent: "space-between",
+          alignItems: "start",
           flexDirection: "column",
-          height: "90vh",
+          height: "60vh",
         }}
+        p={4}
       >
         {/* <img src={noEarnings} alt="activity" /> */}
-        <Box>
+        <Box display="flex" flexDirection="column" gap={5} width="100">
           <Typography
             fontSize={12}
-            color="#868686"
-            textAlign={"center"}
+            color="#000"
             display="flex"
             alignItems="center"
-            justifyContent="center"
-            gap={2}
+            justifyContent="start"
+            gap={1}
+            sx={{ cursor: "pointer", "&:hover": { color: "#FB8C00" } }}
           >
-            <InfoRounded />
+            <InfoOutlined />
             About
-          </Typography>{" "}
+          </Typography>
+          {/* <Box width="100%" height="2px" bgcolor="red"></Box> */}
           <Typography
             fontSize={12}
-            color="#868686"
-            textAlign={"center"}
+            color="#000"
+            // textAlign={"center"}
             display="flex"
             alignItems="center"
-            justifyContent="center"
-            gap={2}
+            justifyContent="start"
+            gap={1}
+            sx={{ cursor: "pointer", "&:hover": { color: "#FB8C00" } }}
           >
-            <QuestionMarkRounded />
+            <HelpOutline />
             Support
           </Typography>
         </Box>
+        <Typography
+          fontSize={12}
+          color="#CB1919"
+          display="flex"
+          alignItems="center"
+          justifyContent="start"
+          gap={1}
+          fontWeight="bold"
+          p={0.5}
+          borderRadius={1}
+          sx={{ cursor: "pointer", "&:hover": { bgcolor: "#86868635" } }}
+          onClick={handleLogout}
+        >
+          <img src={logout} alt="Logout" />
+          Logout
+        </Typography>
       </Box>
-    </>
+      {logginOut && (
+        <LogoutDialog
+          open={logginOut}
+          handleClose={handleClose}
+          handleConfirm={handleConfirm}
+          header="Confirm Logout"
+          text="You are logging out of the app. If you do , you wont receive notifications of orders"
+        />
+      )}
+      {loading && <Loader text="Logging out" />}
+    </Box>
   );
 }
