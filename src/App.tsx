@@ -1,5 +1,4 @@
-import { Box, Container, Typography } from "@mui/material";
-import logo from "./assets/logo.png"; // Ensure you have your logo image in the assets folder.
+import {Container } from "@mui/material";
 import { useEffect, useState } from "react";
 import SplashScreen from "./screens/splash";
 import GetStartedScreen from "./screens/getStarted";

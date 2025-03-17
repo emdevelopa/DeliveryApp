@@ -1,4 +1,4 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import getStartedImage1 from "../assets/delivery_man.png";
 import Header from "../components/header";
