@@ -49,6 +49,7 @@ const OrderDetails: React.FC = () => {
     setloading(true);
     setTimeout(() => {
       setloading(false);
+      navigate("/pickup")
     }, 3000);
   };
 
@@ -176,6 +177,7 @@ const OrderDetails: React.FC = () => {
       </Box>
       {accept && (
         <ConfirmDialog
+          open=""
           handleClose={handleCancel}
           handleConfirm={handleConfirm}
           header="Confirm"
