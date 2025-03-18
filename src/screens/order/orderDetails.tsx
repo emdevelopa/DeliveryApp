@@ -177,7 +177,7 @@ const OrderDetails: React.FC = () => {
       </Box>
       {accept && (
         <ConfirmDialog
-          open=""
+        
           handleClose={handleCancel}
           handleConfirm={handleConfirm}
           header="Confirm"

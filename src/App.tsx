@@ -9,6 +9,7 @@ import Dashboard from "./screens/homepage";
 import OrderScreen from "./screens/order/order";
 import OrderDetails from "./screens/order/orderDetails";
 import PickupScreen from "./screens/order/PickupScreen";
+import DeliveryScreen from "./screens/order/delivery";
 
 function App() {
   const [splashScreen, setSplashScreen] = useState(true);
@@ -44,6 +45,7 @@ function App() {
             <Route path="/order" element={<OrderScreen />} />
             <Route path="/order-details/:orderId" element={<OrderDetails />} />
             <Route path="/pickup" element={<PickupScreen />} />
+            <Route path="/delivery" element={<DeliveryScreen />} />
           </Routes>
         </Router>
       )}

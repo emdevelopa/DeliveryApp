@@ -16,13 +16,10 @@ import Map, { Marker } from "react-map-gl/mapbox";
 import groceries from "../../assets/groceries.png";
 import ConfirmDialog from "../../components/confirmDialog";
 import Loader from "../../components/loader";
-import { useNavigate } from "react-router-dom";
 
 const MAPBOX_TOKEN = "YOUR_MAPBOX_ACCESS_TOKEN"; // Replace with your API Key
 
-const PickupScreen = () => {
-
-    const navigate = useNavigate()
+const DeliveryScreen = () => {
   const [viewport, setViewport] = useState({
     latitude: 5.614818,
     longitude: -0.205874,
@@ -31,8 +28,8 @@ const PickupScreen = () => {
   const pickupLocation = { latitude: 5.614818, longitude: -0.205874 };
   const driverLocation = { latitude: 5.6123, longitude: -0.2045 };
   const [confirm, setConfirm] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [loadingText, setLoadingText] = useState("Loading delivery details");
+  const [loading, setLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState("Loading delivery details");
 
   const handleArrivedAtPickup = () => {
     setConfirm(true);
@@ -42,22 +39,21 @@ const PickupScreen = () => {
     setConfirm(false);
   };
 
-const handleConfirm = () => {
+  const handleConfirm = () => {
     setLoading(true);
-    handleClose()
-  setLoadingText("Loading delivery details"); // Reset the text on new confirm
+    handleClose();
+    setLoadingText("Loading delivery details"); // Reset the text on new confirm
 
-  // Change text after 3 seconds
-  setTimeout(() => {
-    setLoadingText("Processing");
-  }, 3000);
+    // Change text after 3 seconds
+    setTimeout(() => {
+      setLoadingText("Processing");
+    }, 3000);
 
-  // Stop loading after 6 seconds
-  setTimeout(() => {
+    // Stop loading after 6 seconds
+    setTimeout(() => {
       setLoading(false);
-      navigate("/delivery")
-  }, 6000);
-};
+    }, 6000);
+  };
 
   return (
     <Box sx={{ position: "relative", width: "100%", height: "100vh" }}>
@@ -99,10 +95,10 @@ const handleConfirm = () => {
         }}
       >
         <CardContent>
-          <Box display="flex" justifyContent="space-between">
-            <Box sx={{ width: "50%" }}>
+          <Box display="flex" justifyContent="space-between" mb={2}>
+            <Box >
               <Typography variant="h6" fontWeight="bold" fontSize={16}>
-                Pickup Details
+                Delivery Details
               </Typography>
               <Typography variant="body2" color="textSecondary" fontSize={10}>
                 Confirm code with customer before you pickup package.
@@ -110,7 +106,7 @@ const handleConfirm = () => {
             </Box>
 
             {/* Pickup Code */}
-            <Box
+            {/* <Box
               //   display="flex"
               alignItems="center"
               justifyContent="space-between"
@@ -130,7 +126,7 @@ const handleConfirm = () => {
               >
                 4546
               </Typography>
-            </Box>
+            </Box> */}
           </Box>
 
           <Box display="flex" justifyContent="space-between">
@@ -139,7 +135,7 @@ const handleConfirm = () => {
               display="flex"
               //   flexDirection="column"
               alignItems="center"
-              mt={2}
+              //   mt={2}
             >
               <img src={groceries} alt="groceries" />
               <Box>
@@ -205,16 +201,16 @@ const handleConfirm = () => {
         }}
         onClick={handleArrivedAtPickup}
       >
-        I've Arrived At Pickup Location
+        I've Arrived At Delivery Location
       </Button>
 
       {confirm && (
         <ConfirmDialog
-          header="Confirm Pickup"
-          text="Have you picked up package from customer"
+          header="Confirm Package Delivery"
+          text="Enter delivery code given by customer before handing over package. "
           handleClose={handleClose}
           handleConfirm={handleConfirm}
-          confirmButtonText="Yes, I have"
+          confirmButtonText="Verify"
         />
       )}
 
@@ -224,4 +220,4 @@ const handleConfirm = () => {
   );
 };
 
-export default PickupScreen;
+export default DeliveryScreen;

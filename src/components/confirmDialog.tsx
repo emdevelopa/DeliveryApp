@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   DialogActions,
   DialogContent,
@@ -11,20 +11,37 @@ import InfoIcon from "@mui/icons-material/Info";
 
 // Define props using TypeScript
 interface ConfirmDialog {
-  open: boolean;
   handleClose: () => void;
   handleConfirm: () => void;
   header: string;
   text: string;
+  confirmButtonText: string;
 }
 
 const ConfirmDialog: React.FC<ConfirmDialog> = ({
-  open,
   handleClose,
   handleConfirm,
   header,
   text,
+  confirmButtonText,
 }) => {
+  const [timeLeft, setTimeLeft] = useState(4 * 60 + 59); 
+  useEffect(() => {
+    if (header !== "Confirm Pickup") return; // Only run when header matches
+
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+
+    return () => clearInterval(timer); // Cleanup on unmount
+  }, [header]); // Runs when header changes
+
+  // Convert seconds to MM:SS format
+  const formatTime = (seconds: any) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+  };
   return (
     <Box
       bgcolor="#000000c8"
@@ -63,40 +80,62 @@ const ConfirmDialog: React.FC<ConfirmDialog> = ({
           </Typography>
         </DialogContent>
 
-        <DialogActions sx={{ justifyContent: "center", pb: 2 }}>
-          <Button
-            variant="outlined"
-            onClick={handleClose}
-            sx={{
-              borderColor: "#FF9800",
-              color: "#FF9800",
-              textTransform: "none",
-              fontWeight: "bold",
-              //   width: "40%",
-              px: 4,
-              py: 1,
-              borderRadius: 2,
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            onClick={handleConfirm}
-            sx={{
-              bgcolor: header === "Confirm" ? "#FB6C04" : "#D32F2F",
-              textTransform: "none",
-              fontWeight: "bold",
-              px: 4,
-              py: 1,
-              borderRadius: 2,
-              "&:hover": {
-                bgcolor: header === "Confirm" ? "#bf5102d2" : "#B71C1C",
-              },
-            }}
-          >
-            Confirm
-          </Button>
+        <DialogActions
+          sx={{ justifyContent: "center", pb: 2, flexDirection: "column" }}
+        >
+          <Box display="flex" gap={2} alignItems="center" mb={1}>
+            {header === "Confirm Pickup" ? (
+              ""
+            ) : (
+              <Button
+                variant="outlined"
+                onClick={handleClose}
+                sx={{
+                  borderColor: "#FF9800",
+                  color: "#FF9800",
+                  textTransform: "none",
+                  fontWeight: "bold",
+                  //   width: "40%",
+                  px: 4,
+                  py: 1,
+                  borderRadius: 2,
+                }}
+              >
+                Cancel
+              </Button>
+            )}
+            <Button
+              variant="contained"
+              onClick={handleConfirm}
+              sx={{
+                bgcolor:
+                  header === "Confirm" || header === "Confirm Pickup"
+                    ? "#FB6C04"
+                    : "#D32F2F",
+                textTransform: "none",
+                fontWeight: "bold",
+                px: 4,
+                py: 1,
+                borderRadius: 2,
+                "&:hover": {
+                  bgcolor:
+                    header === "Confirm" || header === "Confirm Pickup"
+                      ? "#bf5102d2"
+                      : "#B71C1C",
+                },
+              }}
+            >
+              {confirmButtonText}
+            </Button>
+          </Box>
+
+          {header === "Confirm Pickup" && (
+            <Box>
+              <Typography color="#CDCBCB">
+                Report Customer Delay ({formatTime(timeLeft)})
+              </Typography>
+            </Box>
+          )}
         </DialogActions>
       </Box>
     </Box>

@@ -124,7 +124,6 @@ export default function Account() {
       </Box>
       {logginOut && (
         <LogoutDialog
-          open={logginOut}
           handleClose={handleClose}
           handleConfirm={handleConfirm}
           header="Confirm Logout"
