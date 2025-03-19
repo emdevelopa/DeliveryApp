@@ -9,6 +9,10 @@ import {
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import OTPInput from "./otp";
+import info from "../assets/info.png";
+import wrongPin from "../assets/wrong_pin.png";
+import correctPin from "../assets/correct_pin.png";
+import { useNavigate } from "react-router-dom";
 
 // Define props using TypeScript
 interface ConfirmDialog {
@@ -17,6 +21,9 @@ interface ConfirmDialog {
   header: string;
   text: string;
   confirmButtonText: string;
+  setLoading?: (value: boolean) => void;
+  setPinVerified?: (value: boolean) => void;
+  pinVerified?: boolean;
 }
 
 const ConfirmDialog: React.FC<ConfirmDialog> = ({
@@ -25,33 +32,52 @@ const ConfirmDialog: React.FC<ConfirmDialog> = ({
   header,
   text,
   confirmButtonText,
+  setLoading,
+  setPinVerified,
+  pinVerified,
 }) => {
   const [timeLeft, setTimeLeft] = useState(4 * 60 + 59);
+  const [incorrectPin, setIncorrectPin] = useState<boolean | null>(null);
+  const navigate = useNavigate()
+
   const handleOTPComplete = (otp: string) => {
-    console.log("Entered OTP:", otp);
+    if (otp === "1234") {
+      setIncorrectPin(false); // Correct PIN
+      console.log("Entered OTP:", otp);
+      setLoading?.(true);
+      handleClose();
+      setTimeout(() => {
+        setLoading?.(false);
+        setPinVerified?.(true);
+
+      
+      }, 3000);
+    } else {
+      setIncorrectPin(true); // Incorrect PIN
+    }
   };
 
-   useEffect(() => {
-     // Check if header matches either "Confirm Pickup" or "Confirm Package Delivery"
-     const isCountdownActive =
-       header === "Confirm Pickup" || header === "Confirm Package Delivery";
-     if (!isCountdownActive) return;
+  useEffect(() => {
+    // Check if header matches either "Confirm Pickup" or "Confirm Package Delivery"
+    const isCountdownActive =
+      header === "Confirm Pickup" || header === "Confirm Package Delivery";
+    if (!isCountdownActive) return;
 
-     setTimeLeft(4 * 60 + 59); // Reset countdown when header changes
+    setTimeLeft(4 * 60 + 59); // Reset countdown when header changes
 
-     const timer = setInterval(() => {
-       setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
-     }, 1000);
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
 
-     return () => clearInterval(timer); // Cleanup on unmount
-   }, [header]); // Restart countdown if header changes
+    return () => clearInterval(timer); // Cleanup on unmount
+  }, [header]); // Restart countdown if header changes
 
-   // Convert seconds to MM:SS format
-   const formatTime = (seconds: any) => {
-     const minutes = Math.floor(seconds / 60);
-     const secs = seconds % 60;
-     return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
-   };
+  // Convert seconds to MM:SS format
+  const formatTime = (seconds: any) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+  };
 
   return (
     <Box
@@ -66,8 +92,34 @@ const ConfirmDialog: React.FC<ConfirmDialog> = ({
       justifyContent="center"
     >
       <Box bgcolor="white" borderRadius={5} m={2} p={1}>
-        <Box sx={{ textAlign: "center" }}>
-          <IconButton
+        <Box sx={{ textAlign: "center", mt: 2 }}>
+          {pinVerified ? (
+            <img
+              src={correctPin}
+              alt="CorrectPin"
+              loading="lazy"
+              style={{ width: "4em" }}
+            />
+          ) : incorrectPin === null ? (
+            <img
+              src={info}
+              alt="Info"
+              loading="lazy"
+              style={{ width: "4em" }}
+            />
+          ) : incorrectPin ? (
+            <img
+              src={wrongPin}
+              alt="WrongPin"
+              loading="lazy"
+              style={{ width: "4em" }}
+            />
+          ) : (
+            ""
+          )}
+          {/* {: } */}
+
+          {/* <IconButton
             disableRipple
             sx={{
               bgcolor: header === "Confirm" ? "#FB6C04" : "red",
@@ -79,19 +131,39 @@ const ConfirmDialog: React.FC<ConfirmDialog> = ({
             }}
           >
             <InfoIcon />
-          </IconButton>
+          </IconButton> */}
         </Box>
 
         <DialogContent sx={{ textAlign: "center" }}>
           <Typography variant="h6" fontWeight="bold" color="#000000">
-            {header}
+            {incorrectPin
+              ? "Delivery Code Incorrect"
+              : pinVerified
+              ? "Delivery Code Correct"
+              : header}
           </Typography>
           <Typography variant="body2" sx={{ mt: 1 }} color="#000000">
-            {text}
+            {incorrectPin
+              ? "Do not hand package over to recipient yet"
+              : pinVerified
+              ? "Hand package over to recipient"
+              : text}
           </Typography>
         </DialogContent>
         <DialogContent
-          sx={{ minHeight: "4em", bgcolor: "#F9FAFB", m: 2, borderRadius: 2 }}
+          sx={{
+            minHeight: "4em",
+            bgcolor: "#F9FAFB",
+            m: 2,
+            borderRadius: 2,
+            display:
+              header === "Confirm Logout" ||
+              header === "Confirm" ||
+              header === "Confirm Pickup" ||
+              pinVerified || incorrectPin
+                ? "none"
+                : "block",
+          }}
         >
           {header === "Confirm Package Delivery" && (
             <OTPInput length={4} onComplete={handleOTPComplete} />
@@ -100,7 +172,7 @@ const ConfirmDialog: React.FC<ConfirmDialog> = ({
         <DialogActions
           sx={{ justifyContent: "center", pb: 2, flexDirection: "column" }}
         >
-          <Box display="flex" gap={2} alignItems="center" mb={1} width="100%">
+          <Box display="flex" gap={2} alignItems="center" mb={1}>
             {header === "Confirm Pickup" ||
             header === "Confirm Package Delivery" ? (
               ""
@@ -124,9 +196,15 @@ const ConfirmDialog: React.FC<ConfirmDialog> = ({
             )}
             <Button
               variant="contained"
-              onClick={handleConfirm}
+              onClick={
+                incorrectPin
+                  ? () => setIncorrectPin(null)
+                  : pinVerified
+                  ? handleClose
+                  : handleConfirm
+              }
               sx={{
-                minWidth: "100%",
+                // minWidth: "100%",
                 bgcolor:
                   header === "Confirm" ||
                   header === "Confirm Pickup" ||
@@ -136,7 +214,7 @@ const ConfirmDialog: React.FC<ConfirmDialog> = ({
                 textTransform: "none",
                 fontWeight: "bold",
                 px: 4,
-                py: 2,
+                py: 1,
                 borderRadius: 2,
                 "&:hover": {
                   bgcolor:
@@ -148,13 +226,17 @@ const ConfirmDialog: React.FC<ConfirmDialog> = ({
                 },
               }}
             >
-              {confirmButtonText}
+              {incorrectPin
+                ? "Retry"
+                : pinVerified
+                ? "Okay"
+                : confirmButtonText}
             </Button>
           </Box>
 
           {(header === "Confirm Pickup" ||
             header === "Confirm Package Delivery") && (
-            <Box>
+            <Box sx={{ display: pinVerified ? "none" : "block" }}>
               <Typography color="#CDCBCB">
                 Report Customer Delay ({formatTime(timeLeft)})
               </Typography>

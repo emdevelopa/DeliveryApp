@@ -30,13 +30,15 @@ const DeliveryScreen = () => {
   const [confirm, setConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingText, setLoadingText] = useState("Loading delivery details");
+  const [pinVerified, setPinVerified] = useState<boolean | null>(null);
 
   const handleArrivedAtPickup = () => {
     setConfirm(true);
   };
 
   const handleClose = () => {
-    setConfirm(false);
+      setConfirm(false);
+      setPinVerified(false)
   };
 
   const handleConfirm = () => {
@@ -96,7 +98,7 @@ const DeliveryScreen = () => {
       >
         <CardContent>
           <Box display="flex" justifyContent="space-between" mb={2}>
-            <Box >
+            <Box>
               <Typography variant="h6" fontWeight="bold" fontSize={16}>
                 Delivery Details
               </Typography>
@@ -204,13 +206,16 @@ const DeliveryScreen = () => {
         I've Arrived At Delivery Location
       </Button>
 
-      {confirm && (
+      {(pinVerified || confirm) && (
         <ConfirmDialog
           header="Confirm Package Delivery"
           text="Enter delivery code given by customer before handing over package. "
           handleClose={handleClose}
           handleConfirm={handleConfirm}
           confirmButtonText="Verify"
+          setLoading={setLoading}
+          setPinVerified={setPinVerified}
+          pinVerified={pinVerified}
         />
       )}
 

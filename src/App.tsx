@@ -10,6 +10,8 @@ import OrderScreen from "./screens/order/order";
 import OrderDetails from "./screens/order/orderDetails";
 import PickupScreen from "./screens/order/PickupScreen";
 import DeliveryScreen from "./screens/order/delivery";
+import OrderSuccessful from "./screens/order/orderSuccessful";
+import SuccessfullOrderDetails from "./screens/order/successfulOrderDetails";
 
 function App() {
   const [splashScreen, setSplashScreen] = useState(true);
@@ -44,8 +46,10 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/order" element={<OrderScreen />} />
             <Route path="/order-details/:orderId" element={<OrderDetails />} />
+            <Route path="/successful-order-details/:orderId" element={<SuccessfullOrderDetails />} />
             <Route path="/pickup" element={<PickupScreen />} />
             <Route path="/delivery" element={<DeliveryScreen />} />
+            <Route path="/orderSuccessful" element={<OrderSuccessful />} />
           </Routes>
         </Router>
       )}

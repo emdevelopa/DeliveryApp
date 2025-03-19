@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Box, Typography, Card, CardContent, Button } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  Button,
+  Chip,
+} from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PaymentsIcon from "@mui/icons-material/Payments";
 
@@ -8,6 +15,7 @@ import groceries from "../../assets/groceries.png";
 import cash from "../../assets/cash.png";
 import ConfirmDialog from "../../components/confirmDialog";
 import Loader from "../../components/loader";
+import { ChevronLeft } from "@mui/icons-material";
 
 // Sample order data
 const orders = [
@@ -29,7 +37,7 @@ const orders = [
   },
 ];
 
-const OrderDetails: React.FC = () => {
+const SuccessfullOrderDetails: React.FC = () => {
   const { orderId } = useParams<{ orderId: string }>(); // Get the order ID from URL
   const navigate = useNavigate();
 
@@ -49,7 +57,7 @@ const OrderDetails: React.FC = () => {
     setloading(true);
     setTimeout(() => {
       setloading(false);
-      navigate("/pickup")
+      navigate("/pickup");
     }, 3000);
   };
 
@@ -70,8 +78,16 @@ const OrderDetails: React.FC = () => {
         overflow: "auto",
       }}
     >
-      <Typography variant="h5" fontWeight="bold" textAlign="center" mb={2}>
-        Order details
+      <Typography
+        variant="h5"
+        fontWeight="bold"
+        textAlign="start"
+        pl={2}
+              mb={2}
+              
+              onClick={()=>navigate(-1)}
+      >
+        <ChevronLeft />
       </Typography>
 
       <Box
@@ -101,6 +117,28 @@ const OrderDetails: React.FC = () => {
         </Box>
       </Box>
 
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        mt={1}
+        px={2}
+      >
+        <Typography variant="body2" color="text.secondary">
+          25 Jun, 2024 • 10:23AM
+        </Typography>
+
+        <Chip
+          label="Completed"
+          sx={{
+            backgroundColor: "#00C853",
+            color: "white",
+            fontWeight: "bold",
+            borderRadius: "8px",
+            px: 1.5,
+          }}
+        />
+      </Box>
       <Box mt={2} px={2}>
         <Box sx={{ bgcolor: "#F3F3F3", mb: 2, borderRadius: 3 }}>
           <CardContent>
@@ -120,7 +158,14 @@ const OrderDetails: React.FC = () => {
           </CardContent>
         </Box>
 
-        <Card sx={{ bgcolor: "#fb6b0435", mb: 2, borderRadius: 3 }}>
+        <Card
+          sx={{
+            bgcolor: "#fb6b0435",
+            boxShadow: "none",
+            mb: 2,
+            borderRadius: 3,
+          }}
+        >
           <CardContent>
             <Typography fontWeight="bold">Delivery details</Typography>
             <Box display="flex" alignItems="center" mt={1}>
@@ -145,21 +190,6 @@ const OrderDetails: React.FC = () => {
             <Typography fontWeight="bold">{order.paymentType}</Typography>
           </Box>
         </Box>
-
-        <Button
-          variant="contained"
-          fullWidth
-          sx={{
-            bgcolor: "#FB6C04",
-            mb: 1,
-            fontWeight: "bold",
-            borderRadius: 2,
-            py: 2,
-          }}
-          onClick={handleAcceptOrder}
-        >
-          Accept Order
-        </Button>
         <Button
           variant="outlined"
           fullWidth
@@ -175,18 +205,8 @@ const OrderDetails: React.FC = () => {
           Go back
         </Button>
       </Box>
-      {accept && (
-        <ConfirmDialog
-          handleClose={handleCancel}
-          handleConfirm={handleConfirm}
-          header="Confirm"
-          text="You are accepting to pickup this package and delivery to customer at their location."
-          confirmButtonText="Confirm"
-        />
-      )}
-      {loading && <Loader text="Loading pickup details" />}
     </Box>
   );
 };
 
-export default OrderDetails;
+export default SuccessfullOrderDetails;

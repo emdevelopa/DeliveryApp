@@ -67,7 +67,7 @@ export default function Account() {
       </AppBar>
       <Box
         sx={{
-          width: "100%",
+        //   width: "100%",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "start",
@@ -128,6 +128,7 @@ export default function Account() {
           handleConfirm={handleConfirm}
           header="Confirm Logout"
           text="You are logging out of the app. If you do , you wont receive notifications of orders"
+          confirmButtonText="Confirm"
         />
       )}
       {loading && <Loader text="Logging out" />}

@@ -32,13 +32,13 @@ const orders: Order[] = [
 ];
 
 const OrderScreen: React.FC = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleOrderClick = (orderId: number) => {
-      navigate(`/order-details/${orderId}`); // Navigate with order ID
-    };
+  const handleOrderClick = (orderId: number) => {
+    navigate(`/order-details/${orderId}`); // Navigate with order ID
+  };
   return (
-    <Box sx={{ mx: "auto", p: 3, width: "100%", overflow:"auto" }}>
+    <Box sx={{ mx: "auto", p: 3, width: "100%", overflow: "auto" }}>
       <Typography variant="h5" fontWeight="bold" textAlign="center" mb={2}>
         Orders
       </Typography>
@@ -46,7 +46,13 @@ const OrderScreen: React.FC = () => {
       {orders.map((order) => (
         <Card
           key={order.id}
-          sx={{ mb: 2, borderRadius: 3, boxShadow: "none", bgcolor: "#F8F8F8", cursor:"pointer" }}
+          sx={{
+            mb: 2,
+            borderRadius: 3,
+            boxShadow: "none",
+            bgcolor: "#F8F8F8",
+            cursor: "pointer",
+          }}
           onClick={() => handleOrderClick(order.id)}
         >
           <CardContent>
