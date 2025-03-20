@@ -83,9 +83,8 @@ const SuccessfullOrderDetails: React.FC = () => {
         fontWeight="bold"
         textAlign="start"
         pl={2}
-              mb={2}
-              
-              onClick={()=>navigate(-1)}
+        mb={2}
+        onClick={() => navigate(-1)}
       >
         <ChevronLeft />
       </Typography>

@@ -1,7 +1,12 @@
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 import noEarnings from "../assets/no-earnings.png";
 import DateFilter from "../components/dateFilter";
+import EarningsHistory from "./earningHistory";
 
+const earningsData = [
+  { date: "25 Jun, 2024", time: "10:23AM", amount: "GHS 35.00" },
+  { date: "25 Jun, 2024", time: "12:23PM", amount: "GHS 27.00" },
+];
 export default function Earnings() {
   return (
     <>
@@ -42,18 +47,30 @@ export default function Earnings() {
       <Box
         sx={{
           width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
           height: "90vh",
         }}
       >
-        <img src={noEarnings} alt="activity" />
-        <Typography fontSize={12} color="#868686" textAlign={"center"}>
-          You have no earnings yet, accept and complete orders to increase your
-          earnings
-        </Typography>
+        {earningsData.length === 0 ? (
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+              height: "90vh",
+            }}
+          >
+            {" "}
+            <img src={noEarnings} alt="activity" />
+            <Typography fontSize={12} color="#868686" textAlign={"center"}>
+              You have no earnings yet, accept and complete orders to increase
+              your earnings
+            </Typography>
+          </Box>
+        ) : (
+          <EarningsHistory />
+        )}
       </Box>
     </>
   );

@@ -24,6 +24,7 @@ interface ConfirmDialog {
   setLoading?: (value: boolean) => void;
   setPinVerified?: (value: boolean) => void;
   pinVerified?: boolean;
+  picked?: boolean;
 }
 
 const ConfirmDialog: React.FC<ConfirmDialog> = ({
@@ -35,10 +36,11 @@ const ConfirmDialog: React.FC<ConfirmDialog> = ({
   setLoading,
   setPinVerified,
   pinVerified,
+  picked,
 }) => {
   const [timeLeft, setTimeLeft] = useState(4 * 60 + 59);
   const [incorrectPin, setIncorrectPin] = useState<boolean | null>(null);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleOTPComplete = (otp: string) => {
     if (otp === "1234") {
@@ -49,8 +51,6 @@ const ConfirmDialog: React.FC<ConfirmDialog> = ({
       setTimeout(() => {
         setLoading?.(false);
         setPinVerified?.(true);
-
-      
       }, 3000);
     } else {
       setIncorrectPin(true); // Incorrect PIN
@@ -160,7 +160,9 @@ const ConfirmDialog: React.FC<ConfirmDialog> = ({
               header === "Confirm Logout" ||
               header === "Confirm" ||
               header === "Confirm Pickup" ||
-              pinVerified || incorrectPin
+              pinVerified ||
+              picked ||
+              incorrectPin
                 ? "none"
                 : "block",
           }}
@@ -174,7 +176,8 @@ const ConfirmDialog: React.FC<ConfirmDialog> = ({
         >
           <Box display="flex" gap={2} alignItems="center" mb={1}>
             {header === "Confirm Pickup" ||
-            header === "Confirm Package Delivery" ? (
+            header === "Confirm Package Delivery" ||
+            picked ? (
               ""
             ) : (
               <Button
@@ -199,7 +202,7 @@ const ConfirmDialog: React.FC<ConfirmDialog> = ({
               onClick={
                 incorrectPin
                   ? () => setIncorrectPin(null)
-                  : pinVerified
+                  : pinVerified || picked
                   ? handleClose
                   : handleConfirm
               }
@@ -208,7 +211,8 @@ const ConfirmDialog: React.FC<ConfirmDialog> = ({
                 bgcolor:
                   header === "Confirm" ||
                   header === "Confirm Pickup" ||
-                  header === "Confirm Package Delivery"
+                  header === "Confirm Package Delivery" ||
+                  picked
                     ? "#FB6C04"
                     : "#D32F2F",
                 textTransform: "none",
@@ -220,7 +224,8 @@ const ConfirmDialog: React.FC<ConfirmDialog> = ({
                   bgcolor:
                     header === "Confirm" ||
                     header === "Confirm Pickup" ||
-                    header === "Confirm Package Delivery"
+                    header === "Confirm Package Delivery" ||
+                    picked
                       ? "#bf5102d2"
                       : "#B71C1C",
                 },

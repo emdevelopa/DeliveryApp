@@ -38,11 +38,12 @@ const orders: Order[] = [
     dropoff: "Asufufu Junction",
   },
 ];
+
 export default function () {
   const [isOnline, setIsOnline] = useState(true);
 
   const navigate = useNavigate();
-
+  const completedOrder = true;
   return (
     <>
       {/* Header Section */}
@@ -170,7 +171,9 @@ export default function () {
               variant="h6"
               sx={{ fontWeight: "bold", fontSize: "14px" }}
             >
-              You are yet to complete an order
+              {completedOrder
+                ? "1 order completed"
+                : " You are yet to complete an order"}
             </Typography>
             <Typography variant="body2" color="#868686" fontSize={10}>
               "Keep accepting orders and stay focused to quickly complete your

@@ -18,6 +18,7 @@ const orders = [
     pickup: "Cocoa Board Roundabout",
     dropoff: "Penkwase High Tension",
     paymentType: "Cash",
+    picked: true,
   },
   {
     id: "2",
@@ -35,6 +36,7 @@ const OrderDetails: React.FC = () => {
 
   const [accept, setAccept] = useState(false);
   const [loading, setloading] = useState(false);
+  const [picked, setPicked] = useState(false);
 
   const handleAcceptOrder = () => {
     setAccept(true);
@@ -42,6 +44,7 @@ const OrderDetails: React.FC = () => {
 
   const handleCancel = () => {
     setAccept(false);
+    setPicked(false)
   };
 
   const handleConfirm = () => {
@@ -49,7 +52,7 @@ const OrderDetails: React.FC = () => {
     setloading(true);
     setTimeout(() => {
       setloading(false);
-      navigate("/pickup")
+      order?.picked ? setPicked(true) : navigate("/pickup");
     }, 3000);
   };
 
@@ -175,13 +178,18 @@ const OrderDetails: React.FC = () => {
           Go back
         </Button>
       </Box>
-      {accept && (
+      {(accept || picked) && (
         <ConfirmDialog
           handleClose={handleCancel}
           handleConfirm={handleConfirm}
-          header="Confirm"
-          text="You are accepting to pickup this package and delivery to customer at their location."
-          confirmButtonText="Confirm"
+          header={picked ? "" : "Confirm"}
+          text={
+            picked
+              ? "This order has been accepted by another rider. Make sure to accept orders promptly. Check out other orders and accept."
+              : "You are accepting to pickup this package and delivery to customer at their location."
+          }
+          confirmButtonText={picked ? "Okay" : "Confirm"}
+          picked={picked}
         />
       )}
       {loading && <Loader text="Loading pickup details" />}
